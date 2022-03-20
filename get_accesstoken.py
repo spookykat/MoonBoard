@@ -1,4 +1,5 @@
 import requests
+import secret
 
 def getAccessToken():
     URL = "https://restapimoonboard.ems-x.com/token"
@@ -27,8 +28,8 @@ def getRefreshToken():
         'user-agent': 'MoonBoard/1.0',
     }
     data = {
-        'username': 'username',
-        'password' : 'password',
+        'username': secret.username,
+        'password' : secret.password,
         'grant_type' : 'password',
         'client_id' : 'com.moonclimbing.mb'
     }

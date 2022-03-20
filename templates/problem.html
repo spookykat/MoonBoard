@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Problems</title>
+  <style>
+    .box {
+      background-color: white;
+      color: black;
+      padding: 15px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .space {
+      background-color: lightblue;
+      width: 100%;
+      border: none;
+      outline: none;
+      height: 15px;
+    }
+  </style>
+</head>
+
+<body style="background-color: lightblue;">
+  <h1 style="text-align: center;">Problems</h1>
+  <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+  {% for prob in problem_list %}
+  <div class="box">
+    <form action="/setproblem" method="post" target="dummyframe">
+      <input type="hidden" name="problem" value="{{ prob }}">
+      <button type="submit">Set Problem</button>
+    </form>
+    <p>{{ prob["name"] }}</p>
+    <p>Repeats {{ prob["repeats"] }}</p>
+    <p>Rating {{ prob["userRating"] }}</p>
+  </div>
+  <div class="space"></div>
+  {% endfor %}
+</body>
+
+</html>

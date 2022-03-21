@@ -7,15 +7,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Problems</title>
   <style>
-    .box {
-      background-color: white;
-      color: black;
+    .collapsible {
+      background-color: green;
+      color: white;
+      cursor: pointer;
       padding: 15px;
       width: 100%;
       border: none;
       text-align: left;
       outline: none;
       font-size: 15px;
+    }
+
+    .active,
+    .collapsible:hover {
+      background-color: darkgreen;
+    }
+
+    .content {
+      padding: 0 18px;
+      display: none;
+      overflow: hidden;
+      background-color: lightgreen;
     }
 
     .space {
@@ -32,17 +45,33 @@
   <h1 style="text-align: center;">Problems</h1>
   <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
   {% for prob in problem_list %}
-  <div class="box">
+  <button type="button" class="collapsible"> {{ prob["name"] }} </button>
+  <div class="content">
+    <p>Repeats {{ prob["repeats"] }}</p>
+    <p>Rating {{ prob["userRating"] }}</p>
     <form action="/setproblem" method="post" target="dummyframe">
       <input type="hidden" name="problem" value="{{ prob }}">
       <button type="submit">Set Problem</button>
     </form>
-    <p>{{ prob["name"] }}</p>
-    <p>Repeats {{ prob["repeats"] }}</p>
-    <p>Rating {{ prob["userRating"] }}</p>
   </div>
   <div class="space"></div>
   {% endfor %}
+  <script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
 </body>
 
 </html>

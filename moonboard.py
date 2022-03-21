@@ -1,4 +1,3 @@
-import json
 import pygame
 class Display:
     board = [

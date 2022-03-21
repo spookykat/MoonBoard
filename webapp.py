@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from sort import sort_routes
-from moonboard import displayProblem
+from moonboard import Display
 app = Flask(__name__)
 
 @app.route("/")
@@ -20,6 +20,8 @@ def problem():
 @app.route("/setproblem/", methods=["POST"])
 def setproblem():
     # hold function here
-    displayProblem(request.form['problem'])
+    display.displayProblem(request.form['problem'])
     return render_template("problem.html")
+    
+display = Display()
 app.run()

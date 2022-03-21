@@ -7,36 +7,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Problems</title>
   <style>
+    .box {
+      margin-bottom: 15px;
+      width: 100%;
+      text-align: left;
+      font-size: 15px;
+    }
+    .content {
+      padding: 18px;
+      display: none;
+      overflow: hidden;
+      background-color: #f1f1f1;
+    }
     .collapsible {
-      background-color: green;
+      background-color: #777;
       color: white;
       cursor: pointer;
-      padding: 15px;
+      padding: 18px;
       width: 100%;
       border: none;
       text-align: left;
       outline: none;
       font-size: 15px;
-    }
-
-    .active,
-    .collapsible:hover {
-      background-color: darkgreen;
-    }
-
-    .content {
-      padding: 0 18px;
-      display: none;
-      overflow: hidden;
-      background-color: lightgreen;
-    }
-
-    .space {
-      background-color: lightblue;
-      width: 100%;
-      border: none;
-      outline: none;
-      height: 15px;
     }
   </style>
 </head>
@@ -45,23 +37,26 @@
   <h1 style="text-align: center;">Problems</h1>
   <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
   {% for prob in problem_list %}
-  <button type="button" class="collapsible"> {{ prob["name"] }} </button>
-  <div class="content">
-    <p>Repeats {{ prob["repeats"] }}</p>
-    <p>Rating {{ prob["userRating"] }}</p>
-    <form action="/setproblem" method="post" target="dummyframe">
-      <input type="hidden" name="problem" value="{{ prob }}">
-      <button type="submit">Set Problem</button>
-    </form>
+  <div class="box">
+    <button type="button" class="collapsible">{{ prob["name"] }}</button>
+    <div class="content">
+      <form action="/setproblem" method="post" target="dummyframe">
+        <input type="hidden" name="problem" value="{{ prob }}">
+        <button type="submit">Set Problem</button>
+      </form>
+      <p>Repeats {{ prob["repeats"] }}</p>
+      <p>Rating {{ prob["userRating"] }}</p>
+    </div>
   </div>
-  <div class="space"></div>
+  
   {% endfor %}
+
   <script>
     var coll = document.getElementsByClassName("collapsible");
     var i;
-
+    
     for (i = 0; i < coll.length; i++) {
-      coll[i].addEventListener("click", function () {
+      coll[i].addEventListener("click", function() {
         this.classList.toggle("active");
         var content = this.nextElementSibling;
         if (content.style.display === "block") {
@@ -71,7 +66,7 @@
         }
       });
     }
-  </script>
+    </script>
 </body>
 
 </html>

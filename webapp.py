@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request
 from sort import sort_routes
 from moonboard import Display
+import json
+import ast
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -20,8 +23,9 @@ def problem():
 @app.route("/setproblem/", methods=["POST"])
 def setproblem():
     # hold function here
-    display.displayProblem(request.form['problem'])
+    problem_json = json.loads(json.dumps(ast.literal_eval(request.form['problem'])))
+    display.displayProblem(problem_json)
     return render_template("problem.html")
-    
+
 display = Display()
 app.run()

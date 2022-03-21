@@ -52,9 +52,8 @@ class Display:
             self.instance = pygame.display.set_mode([500, 500])
         return self.instance
 
-    def getProblem(self, problem1):
+    def getProblem(self, problem):
         self.resetBoard()
-        problem = json.loads(problem1.replace('\'', '\"').replace('None','null').replace('False','false').replace('True','true'))
         for hold in problem['moves']:
             row = 18 - int(hold['description'][1:3])
             col = ord(hold['description'][0].lower()) - 96 - 1

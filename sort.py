@@ -1,5 +1,6 @@
 import json
 
+
 def sort_routes(grade, sort):
     with open("problems.json") as f:
         raw_data = json.load(f)
@@ -12,9 +13,9 @@ def sort_routes(grade, sort):
             problem_list.append(i)
 
     if sort == "repeats":
-        problem_list = sorted(problem_list, key=lambda x:x["repeats"], reverse=True)
-            
+        problem_list = sorted(problem_list, key=lambda x: x["repeats"], reverse=True)
+
     if sort == "rating":
-        problem_list = sorted(problem_list, key=lambda x:x["userRating"], reverse=True)
+        problem_list = sorted(problem_list, key=lambda x: x["userRating"], reverse=True)
 
     return problem_list

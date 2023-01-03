@@ -1,11 +1,13 @@
 import requests
+import shutil
 import json
 from get_accesstoken import getAccessToken
 
 
-def requestProblemsJson(n, json):
+def requestProblemsJson(n, json, holdset, angle):
 
-    URL = f"https://restapimoonboard.ems-x.com/v1/_moonapi/problems/v3/17/1/{n}?v=8.3.4"
+    s_holdset, s_angle = holdset_angle_mapping(holdset, angle)
+    URL = f"https://restapimoonboard.ems-x.com/v1/_moonapi/problems/v3/{s_holdset}/{s_angle}/{n}?v=8.3.4"
 
     headers = {
         'accept-encoding': 'gzip, gzip',
@@ -22,13 +24,38 @@ def requestProblemsJson(n, json):
             json['data'].append(data)
 
     if len(jsontemp['data']) == 5000:
-        return requestProblemsJson(json['data'][-1]['apiId'], json)
+        return requestProblemsJson(json['data'][-1]['apiId'], json, holdset, angle)
     else:
         return json
 
 
-z = {}
-json_data = requestProblemsJson(0, z)
+def holdset_angle_mapping(holdset, angle):
 
-with open("problems.json", 'w') as file:
-    json.dump(json_data, file, indent=4)
+    if holdset == "MoonBoard 2016" and angle == "":
+        return "1", "0"
+    elif holdset == "MoonBoard Masters 2017" and angle == "40":
+        return "15", "1"
+    elif holdset == "MoonBoard Masters 2017" and angle == "25":
+        return "15", "2"
+    elif holdset == "MoonBoard Masters 2019" and angle == "40":
+        return "17", "1"
+    elif holdset == "MoonBoard Masters 2019" and angle == "25":
+        return "17", "2"
+    else:
+        raise ValueError(holdset)
+
+for holdset, angle in [
+        ("MoonBoard 2016", ""),
+        ("MoonBoard Masters 2017", "40"),
+        ("MoonBoard Masters 2017", "25"),
+        ("MoonBoard Masters 2019", "40"),
+        ("MoonBoard Masters 2019", "25"),
+]:
+    z = {}
+    json_data = requestProblemsJson(0, z, holdset, angle)
+
+    with open(f"problems {holdset} {angle}.json", 'w') as file:
+        json.dump(json_data, file, indent=4)
+
+# Copy the 2019 problems at 40 degrees to default location for webapp
+shutil.copy("problems MoonBoard Masters 2019 40.json", "problems.json")

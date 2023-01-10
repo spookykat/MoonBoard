@@ -41,8 +41,10 @@ def holdset_angle_mapping(holdset, angle):
         return "17", "1"
     elif holdset == "MoonBoard Masters 2019" and angle == "25":
         return "17", "2"
+    elif holdset == "Mini MoonBoard 2020" and angle == "40":
+        return "19", "1"
     else:
-        raise ValueError(holdset)
+        raise ValueError(holdset, angle)
 
 for holdset, angle in [
         ("MoonBoard 2016", ""),
@@ -50,6 +52,7 @@ for holdset, angle in [
         ("MoonBoard Masters 2017", "25"),
         ("MoonBoard Masters 2019", "40"),
         ("MoonBoard Masters 2019", "25"),
+        ("Mini MoonBoard 2020", "40"),
 ]:
     z = {}
     json_data = requestProblemsJson(0, z, holdset, angle)

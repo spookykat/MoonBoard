@@ -2,7 +2,8 @@ import requests
 import secret
 
 
-def getAccessToken():
+def getAccessToken(**kwargs):
+    ''' Get 'access token' '''
     URL = "https://restapimoonboard.ems-x.com/token"
 
     headers = {
@@ -12,7 +13,7 @@ def getAccessToken():
         'user-agent': 'MoonBoard/1.0',
     }
     data = {
-        'refresh_token': getRefreshToken(),
+        'refresh_token': getRefreshToken(**kwargs),
         'grant_type': 'refresh_token',
         'client_id': 'com.moonclimbing.mb'
     }
@@ -20,7 +21,13 @@ def getAccessToken():
     return r.json()['access_token']
 
 
-def getRefreshToken():
+def getRefreshToken(username=secret.username, password=secret.password):
+    ''' Get a 'refresh token', used to obtaion additional 'access tokens'
+
+    Args:
+      username (str): username, default from secret.username
+      password (str): password, default from secret.password
+    '''
     URL = "https://restapimoonboard.ems-x.com/token"
 
     headers = {
@@ -30,10 +37,10 @@ def getRefreshToken():
         'user-agent': 'MoonBoard/1.0',
     }
     data = {
-        'username': secret.username,
-        'password': secret.password,
+        'username': username,
+        'password': password,
         'grant_type': 'password',
         'client_id': 'com.moonclimbing.mb'
     }
     r = requests.get(URL, headers=headers, data=data)
-    return(r.json()['refresh_token'])
+    return (r.json()['refresh_token'])
